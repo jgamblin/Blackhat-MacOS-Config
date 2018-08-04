@@ -35,4 +35,4 @@ softwareupdate -i -a > /dev/null 2>&1
 
 #Finishing Up.
 timed="$((SECONDS / 3600)) Hours $(((SECONDS / 60) % 60)) Minutes $((SECONDS % 60)) seconds"
-printf "Maid Service Took %s this time. Dont Forget To Tip!\n" "$timed"
+printf "It Took %s to help get your MacBook ready for Blackhat.\n" "$timed"
