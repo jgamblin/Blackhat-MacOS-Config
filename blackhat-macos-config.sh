@@ -27,7 +27,17 @@ fdesetup enable  > /dev/null 2>&1
 
 #Enable Firewall:
 printf "Enabling Firewall.\n"
+
+#This is a more "open" firewall config
+#https://discussions.apple.com/thread/3148672
 defaults write /Library/Preferences/com.apple.alf globalstate 1  > /dev/null 2>&1
+
+#This is a more "strict" firewall config
+#defaults write /Library/Preferences/com.apple.alf globalstate 2  > /dev/null 2>&1
+
+printf "Enabling Stealth Firewall Mode.\n"
+defaults write /Library/Preferences/com.apple.alf stealthenabled -int 0
+
 
 #Install Updates.
 printf "Installing needed updates.\n"

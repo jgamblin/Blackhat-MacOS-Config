@@ -7,6 +7,7 @@ A simple shell script to configure your MacBook to some of the most commonly rec
 - Installs Needed System Updates.
 - Enables Full Disk Encryption.
 - Turns On Firewall.
+  - Enables Stealth Mode
 
 Note: Script Will Prompt For Password If Not Root.
 
