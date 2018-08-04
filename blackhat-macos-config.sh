@@ -21,13 +21,10 @@ do
     networksetup -removepreferredwirelessnetwork en0 "$ssid"  > /dev/null 2>&1
 done
 
-#Disable AutoJoin
-printf "Disable Auto Connect.\n"
-defaults write -currentHost com.apple.network.eapolcontrol EthernetAutoConnect -bool false
-
 #Enabling Firevault:
 printf "Enabling FDE.\n"
 fdesetup enable  > /dev/null 2>&1
+
 #Enable Firewall:
 printf "Enabling Firewall.\n"
 defaults write /Library/Preferences/com.apple.alf globalstate 1  > /dev/null 2>&1
