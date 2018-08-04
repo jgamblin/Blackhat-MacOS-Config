@@ -5,14 +5,14 @@ SECONDS=0
 amiroot=$(sudo -n uptime 2>&1| grep -c "load")
 if [ "$amiroot" -eq 0 ]
 then
-    printf "Maid Service Require Root Access. Please Enter Your Password.\n"
+    printf "Blackhat MacOS Config Require Root Access. Please Enter Your Password.\n"
     sudo -v
     printf "\n"
 fi
 
 #Delete Saved SSIDs For Security
 #Be Sure To Set Home And Work SSID for ease of use.
-printf "Deleting saved wireless networks.\n"
+printf "Deleting Saved Wireless networks.\n"
 homessid="AddMe"
 workssid="AddMe"
 IFS=$'\n'
@@ -21,54 +21,21 @@ do
     networksetup -removepreferredwirelessnetwork en0 "$ssid"  > /dev/null 2>&1
 done
 
+#Disable AutoJoin
+printf "Disable Auto Connect.\n"
+defaults write -currentHost com.apple.network.eapolcontrol EthernetAutoConnect -bool false
+
+#Enabling Firevault:
+printf "Enabling FDE.\n"
+fdesetup enable  > /dev/null 2>&1
+#Enable Firewall:
+printf "Enabling Firewall.\n"
+defaults write /Library/Preferences/com.apple.alf globalstate 1  > /dev/null 2>&1
+
 #Install Updates.
 printf "Installing needed updates.\n"
 softwareupdate -i -a > /dev/null 2>&1
 
-#Taking out the trash.
-printf "Emptying the trash.\n"
-sudo rm -rfv /Volumes/*/.Trashes > /dev/null 2>&1
-sudo rm -rfv ~/.Trash  > /dev/null 2>&1
-
-#Clean the logs.
-printf "Emptying the system log files.\n"
-sudo rm -rfv /private/var/log/*  > /dev/null 2>&1
-sudo rm -rfv /Library/Logs/DiagnosticReports/* > /dev/null 2>&1
-
-printf "Deleting the quicklook files.\n"
-sudo rm -rf /private/var/folders/ > /dev/null 2>&1
-
-#Cleaning Up Homebrew.
-printf "Cleaning up Homebrew.\n"
-brew cleanup --force -s > /dev/null 2>&1
-brew cask cleanup > /dev/null 2>&1
-rm -rfv /Library/Caches/Homebrew/* > /dev/null 2>&1
-brew tap --repair > /dev/null 2>&1
-brew update > /dev/null 2>&1
-brew upgrade > /dev/null 2>&1
-
-#Cleaning Up Ruby.
-printf "Cleanup up Ruby.\n"
-gem cleanup > /dev/null 2>&1
-
-#Cleaning Up Docker.
-#You May Not Want To Do This.
-printf "Removing all Docker containers.\n"
-docker rmi -f "$(docker images -q --filter 'dangling=true')" > /dev/null 2>&1
-
-#Purging Memory.
-printf "Purging memory.\n"
-sudo purge > /dev/null 2>&1
-
-#Removing Known SSH Hosts
-printf "Removing known ssh hosts.\n"
-sudo rm -f /Users/"$(whoami)"/.ssh/known_hosts > /dev/null 2>&1
-
-#Securly Erasing Data.
-printf "Securely erasing free space (This will take a while). \n"
-diskutil secureErase freespace 0 "$( df -h / | tail -n 1 | awk '{print $1}')" > /dev/null 2>&1
-
 #Finishing Up.
 timed="$((SECONDS / 3600)) Hours $(((SECONDS / 60) % 60)) Minutes $((SECONDS % 60)) seconds"
-
 printf "Maid Service Took %s this time. Dont Forget To Tip!\n" "$timed"
