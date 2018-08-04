@@ -8,7 +8,7 @@ A simple shell script to configure your MacBook to some of the most commonly rec
 - Enables Full Disk Encryption.
 - Turns On Firewall.
 
-Note: Script WillPrompt For Password If Not Root.
+Note: Script Will Prompt For Password If Not Root.
 
 ## Usage:
 - Review for your preferences and comment out options **You** dont want.
