@@ -10,9 +10,8 @@ A simple shell script to configure your Mac to some of the most commonly recomme
 - Turns On Firewall.
   - Enables Stealth Mode
 - Installs Needed System Updates.
-- Enables Full Disk Encryption.
 - Validates System Integrity Protection is enabled.
-
+- Enables Full Disk Encryption.
 
 Note: Script Will Prompt For Password If Not Root.
 
