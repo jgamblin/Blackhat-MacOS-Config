@@ -1,36 +1,46 @@
 #!/bin/bash
 
+homessid="AddMe"
+workssid="AddMe"
+
 SECONDS=0
 
 RED='\033[0;31m'
 NC='\033[0m'
 
 #Check if running as root and if not elevate
-amiroot=$(sudo -n uptime 2>&1| grep -c "load")
-if [ "$amiroot" -eq 0 ]
-then
-    printf "Blackhat MacOS Config Require Root Access. Please Enter Your Password.\n"
+sudo -nv 2>>/dev/null
+if [ $? -ne 0 ]; then
+    printf "Black Hat macOS Config requires root access.\n"
+    printf "Please enter your password, or run 'sudo -v' first.\n"
     sudo -v
+
+    #Validate we can sudo now
+    if [ $? -ne 0 ]; then
+      printf "\n"
+      printf "Still not root. Exiting.\n"
+      exit
+    fi
     printf "\n"
 fi
 
+exit
+
 #Delete Saved SSIDs For Security
 #Be Sure To Set Home And Work SSID for ease of use.
-printf "Deleting Saved Wireless networks.\n"
-homessid="AddMe"
-workssid="AddMe"
+printf "Deleting saved Wi-Fi networks.\n"
 IFS=$'\n'
 for ssid in $(networksetup -listpreferredwirelessnetworks en0 | grep -v "Preferred networks on en0:" | grep -v $homessid | grep -v $workssid | sed "s/[\	]//g")
 do
     networksetup -removepreferredwirelessnetwork en0 "$ssid"  > /dev/null 2>&1
 done
 
-#Enabling Firevault:
-printf "Enabling FDE.\n"
-fdesetup enable  > /dev/null 2>&1
+#Enabling FileVault:
+printf "Enabling full disk encryption (FDE / FileVault).\n"
+fdesetup enable > /dev/null 2>&1
 
 #Enable Firewall:
-printf "Enabling Firewall.\n"
+printf "Enabling firewall.\n"
 defaults write /Library/Preferences/com.apple.alf globalstate 1  > /dev/null 2>&1
 
 #Install Updates.
@@ -52,4 +62,4 @@ fi
 
 #Finishing Up.
 timed="$((SECONDS / 3600)) Hours $(((SECONDS / 60) % 60)) Minutes $((SECONDS % 60)) seconds"
-printf "It Took %s to help get your MacBook ready for Blackhat.\n" "$timed"
+printf "It took %s to help get your Mac ready for Black Hat.\n" "$timed"
