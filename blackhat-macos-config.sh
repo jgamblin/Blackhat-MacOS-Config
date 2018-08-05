@@ -35,7 +35,7 @@ done
 
 #Enabling FileVault:
 printf "Enabling full disk encryption (FDE / FileVault).\n"
-fdesetup enable > /dev/null 2>&1
+sudo fdesetup enable > /dev/null 2>&1
 
 #Enable Firewall:
 printf "Enabling firewall.\n"
