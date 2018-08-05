@@ -37,7 +37,7 @@ defaults write /Library/Preferences/com.apple.alf globalstate 1  > /dev/null 2>&
 #defaults write /Library/Preferences/com.apple.alf globalstate 2  > /dev/null 2>&1
 
 printf "Enabling Stealth Firewall Mode.\n"
-defaults write /Library/Preferences/com.apple.alf stealthenabled -int 0
+defaults write /Library/Preferences/com.apple.alf stealthenabled 1 > /dev/null 2>&1
 
 
 #Install Updates.
