@@ -36,8 +36,8 @@ done
 
 #Enable Password Login:
 printf "Require Password Immediately After Sleep or Screen Saver Begins.\n"
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 0
+defaults write com.apple.screensaver askForPassword 1 > /dev/null 2>&1
+defaults write com.apple.screensaver askForPasswordDelay 0 > /dev/null 2>&1
 
 #Enable Firewall:
 printf "Enabling Firewall.\n"
