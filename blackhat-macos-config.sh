@@ -33,17 +33,30 @@ do
     networksetup -removepreferredwirelessnetwork en0 "$ssid" > /dev/null 2>&1
 done
 
-#Enabling FileVault:
-printf "Enabling full disk encryption (FDE / FileVault).\n"
-sudo fdesetup enable > /dev/null 2>&1
+
+#Enable Password Login:
+printf "Require Password Immediately After Sleep or Screen Saver Begins.\n"
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 #Enable Firewall:
-printf "Enabling firewall.\n"
-sudo defaults write /Library/Preferences/com.apple.alf globalstate 1 > /dev/null 2>&1
+printf "Enabling Firewall.\n"
+
+#This is a more "open" firewall config
+#https://discussions.apple.com/thread/3148672
+defaults write /Library/Preferences/com.apple.alf globalstate 1  > /dev/null 2>&1
+
+#This is a more "strict" firewall config
+#defaults write /Library/Preferences/com.apple.alf globalstate 2  > /dev/null 2>&1
+
+printf "Enabling Stealth Firewall Mode.\n"
+defaults write /Library/Preferences/com.apple.alf stealthenabled -int 0
+
 
 #Install Updates.
 printf "Installing needed updates.\n"
 softwareupdate -i -a > /dev/null 2>&1
+
 
 #Check if System Integrity Protection is enabled
 printf "Verifying System Integrity Protection (SIP) is enabled.\n"
@@ -57,6 +70,11 @@ if [[ $csrutil = *"disabled"* ]]; then
   printf " - run: csrutil enable\n"
   printf " - run: reboot # to get back into standard macOS\n"
 fi
+
+#Enabling Firevault:
+printf "Enabling FDE.\n"
+fdesetup enable  > /dev/null 2>&1
+
 
 #Finishing Up.
 timed="$((SECONDS / 3600)) Hours $(((SECONDS / 60) % 60)) Minutes $((SECONDS % 60)) seconds"

@@ -5,11 +5,14 @@ A simple shell script to configure your Mac to some of the most commonly recomme
 
 ## What It Does:
 - Deletes Saved Wireless Networks.
-- ~~Disable Wireless Network Auto Join.~~ < This can't be done programmatically. `¯\_(ツ)_/¯`
+- ~~Disable Wireless Network Auto Join.~~ < This cant be done programmatically. `¯\_(ツ)_/¯`
+- Require Password Immediately After Sleep
+- Turns On Firewall.
+  - Enables Stealth Mode
 - Installs Needed System Updates.
 - Enables Full Disk Encryption.
-- Turns On Firewall.
 - Validates System Integrity Protection is enabled.
+
 
 Note: Script Will Prompt For Password If Not Root.
 
